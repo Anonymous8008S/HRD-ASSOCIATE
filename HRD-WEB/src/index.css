@@ -1,0 +1,111 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 220 30% 97%;
+    --foreground: 222 50% 8%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222 50% 8%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 50% 8%;
+
+    --primary: 225 80% 12%;
+    --primary-foreground: 43 55% 55%;
+
+    --secondary: 220 20% 94%;
+    --secondary-foreground: 225 80% 12%;
+
+    --muted: 220 20% 94%;
+    --muted-foreground: 220 10% 46%;
+
+    --accent: 43 55% 55%;
+    --accent-foreground: 225 80% 12%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 15% 88%;
+    --input: 220 15% 88%;
+    --ring: 43 55% 55%;
+
+    --radius: 0.5rem;
+
+    --gold: 43 55% 55%;
+    --gold-light: 43 60% 70%;
+    --gold-dark: 43 50% 40%;
+    --navy: 225 80% 12%;
+    --navy-light: 225 50% 25%;
+    --navy-dark: 225 90% 7%;
+
+    --sidebar-background: 225 80% 12%;
+    --sidebar-foreground: 43 55% 55%;
+    --sidebar-primary: 43 55% 55%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 225 50% 18%;
+    --sidebar-accent-foreground: 43 55% 55%;
+    --sidebar-border: 225 50% 18%;
+    --sidebar-ring: 43 55% 55%;
+
+    --font-heading: 'Playfair Display', serif;
+    --font-body: 'Inter', sans-serif;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: var(--font-body);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+  }
+}
+
+@layer utilities {
+  .text-gold-gradient {
+    background: linear-gradient(135deg, hsl(43 60% 70%), hsl(43 55% 55%), hsl(43 50% 40%));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .bg-navy-gradient {
+    background: linear-gradient(180deg, hsl(225 90% 7%) 0%, hsl(225 80% 12%) 100%);
+  }
+
+  .bg-gold-gradient {
+    background: linear-gradient(135deg, hsl(43 60% 70%), hsl(43 55% 55%), hsl(43 50% 40%));
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; filter: blur(4px); }
+  to { opacity: 1; filter: blur(0); }
+}
+
+@keyframes slide-left {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
+}

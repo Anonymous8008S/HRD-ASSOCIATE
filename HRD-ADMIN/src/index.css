@@ -1,0 +1,71 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 222 47% 6%;
+    --foreground: 43 50% 85%;
+
+    --card: 222 44% 9%;
+    --card-foreground: 43 50% 85%;
+
+    --popover: 222 44% 9%;
+    --popover-foreground: 43 50% 85%;
+
+    --primary: 43 72% 50%;
+    --primary-foreground: 222 47% 6%;
+
+    --secondary: 222 35% 15%;
+    --secondary-foreground: 43 50% 85%;
+
+    --muted: 222 30% 14%;
+    --muted-foreground: 220 15% 55%;
+
+    --accent: 43 72% 50%;
+    --accent-foreground: 222 47% 6%;
+
+    --destructive: 0 72% 50%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 222 30% 18%;
+    --input: 222 30% 18%;
+    --ring: 43 72% 50%;
+
+    --radius: 0.5rem;
+
+    --sidebar-background: 222 50% 5%;
+    --sidebar-foreground: 43 50% 85%;
+    --sidebar-primary: 43 72% 50%;
+    --sidebar-primary-foreground: 222 47% 6%;
+    --sidebar-accent: 222 35% 12%;
+    --sidebar-accent-foreground: 43 50% 85%;
+    --sidebar-border: 222 30% 15%;
+    --sidebar-ring: 43 72% 50%;
+
+    --gold-gradient: linear-gradient(135deg, hsl(43, 72%, 50%), hsl(38, 80%, 60%), hsl(43, 72%, 50%));
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', serif;
+  }
+}
+
+.gold-text {
+  background: linear-gradient(135deg, hsl(43, 72%, 50%), hsl(38, 80%, 65%), hsl(43, 72%, 50%));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
