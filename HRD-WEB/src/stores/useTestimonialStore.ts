@@ -14,8 +14,11 @@ export interface Testimonial {
   name: string;
   role: string;
   text: string;
+  description: string;
   rating: number;
   image?: string;
+  video?: string;
+  youtubeLink?: string;
   createdAt?: string;
   updatedAt?: string;
 }
@@ -23,6 +26,7 @@ interface TestimonialStore {
   testimonials: Testimonial[];
   loading: boolean;
   fetchAll: () => Promise<void>;
+  fetchTestimonials: () => Promise<void>;
   addTestimonial: (t: Omit<Testimonial, "id">) => Promise<void>;
   updateTestimonial: (id: string, data: Partial<Testimonial>) => Promise<void>;
   deleteTestimonial: (id: string) => Promise<void>;
@@ -33,6 +37,18 @@ const useTestimonialStore = create<TestimonialStore>((set) => ({
   loading: false,
 
   fetchAll: async () => {
+    set({ loading: true });
+    const snap = await getDocs(collection(db, "testimonials"));
+    set({
+      testimonials: snap.docs.map((d) => ({
+        id: d.id,
+        ...d.data(),
+      })) as Testimonial[],
+      loading: false,
+    });
+  },
+
+  fetchTestimonials: async () => {
     set({ loading: true });
     const snap = await getDocs(collection(db, "testimonials"));
     set({

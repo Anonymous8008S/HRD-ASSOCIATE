@@ -5,20 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PropertyCard from "@/components/PropertyCard";
 import ScrollReveal from "@/components/ScrollReveal";
-import prop1 from "@/assets/property-1.jpg";
-import prop2 from "@/assets/property-2.jpg";
-import prop3 from "@/assets/property-3.jpg";
-import prop4 from "@/assets/property-4.jpg";
 import usePropertyStore from "@/stores/usePropertyStore";
-
-const allProperties = [
-  { id: "1", title: "Luxury 3BHK Apartment in Beltola", price: "₹1.2 Cr", location: "Beltola, Guwahati", image: prop1, beds: 3, baths: 2, area: "1,850 sqft", type: "Apartment", tag: "Featured" },
-  { id: "2", title: "Premium Villa with Swimming Pool", price: "₹3.5 Cr", location: "Kahilipara, Guwahati", image: prop2, beds: 4, baths: 3, area: "3,200 sqft", type: "Villa", tag: "New" },
-  { id: "3", title: "Modern Office Space on GS Road", price: "₹45 L", location: "GS Road, Guwahati", image: prop3, beds: 0, baths: 2, area: "2,100 sqft", type: "Commercial" },
-  { id: "4", title: "Penthouse with Panoramic City View", price: "₹2.8 Cr", location: "Zoo Road, Guwahati", image: prop4, beds: 4, baths: 4, area: "4,500 sqft", type: "Apartment", tag: "Premium" },
-  { id: "5", title: "2BHK Flat Near Airport", price: "₹65 L", location: "Borjhar, Guwahati", image: prop1, beds: 2, baths: 1, area: "1,100 sqft", type: "Apartment" },
-  { id: "6", title: "Commercial Plot in Paltan Bazaar", price: "₹1.8 Cr", location: "Paltan Bazaar, Guwahati", image: prop3, beds: 0, baths: 0, area: "5,000 sqft", type: "Plot" },
-];
 
 const Properties = () => {
   const {fetchApproved , properties} = usePropertyStore();
@@ -76,7 +63,7 @@ const Properties = () => {
 
       <div className="container mx-auto px-4 py-12">
         <div className="flex items-center justify-between mb-8">
-          <p className="text-sm text-muted-foreground">Showing <span className="font-semibold text-foreground">{allProperties.length}</span> properties</p>
+          <p className="text-sm text-muted-foreground">Showing <span className="font-semibold text-foreground">{properties.length}</span> properties</p>
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {properties.map((p, i) => (

@@ -3,6 +3,7 @@ export interface RoomDetail {
   name: string;      // e.g. "Master Bedroom", "Kitchen"
   length?: number;   // in feet
   width?: number;    // in feet
+  count?: number;    // number of rooms of this type
 }
 
 export interface Property {
@@ -21,7 +22,10 @@ export interface Property {
   role?: "admin" | "agent";
   postedBy?: string;
   constructionDate?: string;
+  constructionStatus?: "ongoing" | "completed";
+  completionDate?: string;
   facing?: "north" | "south" | "east" | "west";
+  furnishing?: "fully-furnished" | "semi-furnished" | "unfurnished";
   amenities?: string[];
   createdAt?: string;
   updatedAt?: string;
@@ -44,6 +48,25 @@ export interface CommercialProperty {
   amenities?: string[];
   createdAt?: string;
   updatedAt?: string;
+}
+
+export interface PackersMoversForm {
+  name: string;
+  phone: string;
+  email: string;
+  from: string;
+  destination: string;
+  date: string;
+  time: string;
+  floors: string;
+  weight: string;
+}
+export interface PackersBooking extends PackersMoversForm {
+  id?: string;
+  status: "pending" | "confirmed" | "completed" | "cancelled";
+  notes?: string;       // admin-only internal notes
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface Project {

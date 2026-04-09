@@ -1,11 +1,10 @@
-import { Link } from "react-router-dom";
+import { useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
 import CommercialCard from "@/components/CommercialCard";
 import { Building2, Landmark, Warehouse, TrendingUp } from "lucide-react";
-import prop3 from "@/assets/property-3.jpg";
-import prop4 from "@/assets/property-4.jpg";
+import useCommercialStore from "@/stores/useCommercialStore";
 
 const types = [
   { icon: Building2, label: "Offices", desc: "Modern office spaces for startups and enterprises", count: "35+" },
@@ -14,21 +13,25 @@ const types = [
   { icon: TrendingUp, label: "Investment", desc: "High-yield commercial investments", count: "20+" },
 ];
 
-const commercialListings = [
-  { id: "3", title: "Modern Office on GS Road", price: "₹45 L", location: "GS Road, Guwahati", image: prop3, beds: 0, baths: 2, area: "2,100 sqft", type: "Office" },
-  { id: "c2", title: "Retail Space in Paltan Bazaar", price: "₹1.2 Cr", location: "Paltan Bazaar, Guwahati", image: prop4, beds: 0, baths: 1, area: "1,500 sqft", type: "Shop" },
-  { id: "c3", title: "Warehouse Near NH-37", price: "₹85 L", location: "Jorabat, Guwahati", image: prop3, beds: 0, baths: 1, area: "5,000 sqft", type: "Warehouse" },
-];
-
 const Commercial = () => {
+  const { fetchApproved, properties, loading } = useCommercialStore();
+
+  useEffect(() => {
+    fetchApproved();
+  }, []);
+
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
 
       <section className="pt-20 bg-navy-gradient">
         <div className="container mx-auto px-4 py-20 text-center">
-          <h1 className="font-heading text-4xl font-bold text-gold mb-4" style={{ lineHeight: "1.1" }}>Commercial Properties</h1>
-          <p className="text-gold-light/60 max-w-lg mx-auto">Offices, shops, warehouses, and investment properties in prime commercial locations.</p>
+          <h1 className="font-heading text-4xl font-bold text-gold mb-4" style={{ lineHeight: "1.1" }}>
+            Commercial Properties
+          </h1>
+          <p className="text-gold-light/60 max-w-lg mx-auto">
+            Offices, shops, warehouses, and investment properties in prime commercial locations.
+          </p>
         </div>
       </section>
 
@@ -50,15 +53,24 @@ const Commercial = () => {
           </div>
 
           <ScrollReveal>
-            <h2 className="font-heading text-2xl font-bold text-foreground mb-8">Available Commercial Properties</h2>
+            <h2 className="font-heading text-2xl font-bold text-foreground mb-8">
+              Available Commercial Properties
+            </h2>
           </ScrollReveal>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {commercialListings.map((p, i) => (
-              <ScrollReveal key={p.id} delay={i * 80}>
-                <CommercialCard {...p} />
-              </ScrollReveal>
-            ))}
-          </div>
+
+          {loading ? (
+            <p className="text-muted-foreground text-sm">Loading properties...</p>
+          ) : properties.length === 0 ? (
+            <p className="text-muted-foreground text-sm">No commercial properties found.</p>
+          ) : (
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {properties.map((p, i) => (
+                <ScrollReveal key={p.id} delay={i * 80}>
+                  <CommercialCard {...p} />
+                </ScrollReveal>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 

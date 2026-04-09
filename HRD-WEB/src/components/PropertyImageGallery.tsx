@@ -9,27 +9,48 @@ interface PropertyImageGalleryProps {
 const PropertyImageGallery = ({ images, title }: PropertyImageGalleryProps) => {
   const [fullscreenIndex, setFullscreenIndex] = useState<number | null>(null);
 
+  // Ensure safe images (max 5, fallback if empty)
+  const displayImages =
+    images && images.length > 0
+      ? images.slice(0, 5)
+      : ["/placeholder.jpg"];
+
   const goToPrevious = () => {
     if (fullscreenIndex === null) return;
-    setFullscreenIndex(fullscreenIndex === 0 ? displayImages.length - 1 : fullscreenIndex - 1);
+    setFullscreenIndex(
+      fullscreenIndex === 0
+        ? displayImages.length - 1
+        : fullscreenIndex - 1
+    );
   };
 
   const goToNext = () => {
     if (fullscreenIndex === null) return;
-    setFullscreenIndex(fullscreenIndex === displayImages.length - 1 ? 0 : fullscreenIndex + 1);
+    setFullscreenIndex(
+      fullscreenIndex === displayImages.length - 1
+        ? 0
+        : fullscreenIndex + 1
+    );
   };
-
-  // Ensure we have at least 5 images (repeat if needed for demo)
-  const displayImages = images.length >= 5 ? images.slice(0, 5) : [...images, ...images].slice(0, 5);
 
   return (
     <>
-      {/* Desktop: 5-image grid layout */}
-      <div className="hidden md:grid w-full h-[500px] grid-cols-4 grid-rows-2 gap-3 mb-8">
-        {/* Large main image - spans 2x2 */}
+      {/* ================= DESKTOP ================= */}
+      <div
+        className={`hidden md:grid w-full h-[500px] gap-3 mb-8 ${
+          displayImages.length === 1
+            ? "grid-cols-1"
+            : displayImages.length === 2
+            ? "grid-cols-2"
+            : "grid-cols-4 grid-rows-2"
+        }`}
+      >
+        {/* Main Image */}
         <div
           onClick={() => setFullscreenIndex(0)}
-          className="col-span-2 row-span-2 relative rounded-lg overflow-hidden bg-gray-200 cursor-pointer group"
+          className={`relative rounded-lg overflow-hidden bg-gray-200 cursor-pointer group ${
+            displayImages.length >= 3 ? "col-span-2 row-span-2" : ""
+          }`}
         >
           <img
             src={displayImages[0]}
@@ -39,7 +60,7 @@ const PropertyImageGallery = ({ images, title }: PropertyImageGalleryProps) => {
           <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
         </div>
 
-        {/* 4 smaller images - each 1x1 */}
+        {/* Remaining Images */}
         {displayImages.slice(1, 5).map((img, i) => (
           <div
             key={i}
@@ -56,7 +77,7 @@ const PropertyImageGallery = ({ images, title }: PropertyImageGalleryProps) => {
         ))}
       </div>
 
-      {/* Mobile: Horizontal scrollable gallery */}
+      {/* ================= MOBILE ================= */}
       <div className="md:hidden w-full mb-8">
         <div className="flex overflow-x-auto gap-3 pb-2 snap-x snap-mandatory">
           {displayImages.map((img, i) => (
@@ -73,24 +94,24 @@ const PropertyImageGallery = ({ images, title }: PropertyImageGalleryProps) => {
             </div>
           ))}
         </div>
+
         <p className="text-xs text-muted-foreground text-center mt-2">
           Swipe to see more images • {displayImages.length} photos
         </p>
       </div>
 
-      {/* Fullscreen Modal */}
+      {/* ================= FULLSCREEN ================= */}
       {fullscreenIndex !== null && (
         <div className="fixed inset-0 z-50 bg-black/95 backdrop-blur-sm flex items-center justify-center p-4">
-          {/* Close Button */}
+          {/* Close */}
           <button
             onClick={() => setFullscreenIndex(null)}
-            className="absolute top-4 right-4 p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors z-10"
-            aria-label="Close fullscreen"
+            className="absolute top-4 right-4 p-2 rounded-full bg-white/10 hover:bg-white/20 transition"
           >
             <X className="w-6 h-6 text-white" />
           </button>
 
-          {/* Main Image */}
+          {/* Image */}
           <div className="relative w-full h-full flex items-center justify-center max-w-4xl max-h-[85vh]">
             <img
               src={displayImages[fullscreenIndex]}
@@ -98,21 +119,19 @@ const PropertyImageGallery = ({ images, title }: PropertyImageGalleryProps) => {
               className="w-full h-full object-contain"
             />
 
-            {/* Navigation Arrows */}
+            {/* Arrows */}
             {displayImages.length > 1 && (
               <>
                 <button
                   onClick={goToPrevious}
-                  className="absolute left-4 p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors text-white"
-                  aria-label="Previous image"
+                  className="absolute left-4 p-3 rounded-full bg-white/10 hover:bg-white/20 text-white"
                 >
                   <ChevronLeft className="w-6 h-6" />
                 </button>
 
                 <button
                   onClick={goToNext}
-                  className="absolute right-4 p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors text-white"
-                  aria-label="Next image"
+                  className="absolute right-4 p-3 rounded-full bg-white/10 hover:bg-white/20 text-white"
                 >
                   <ChevronRight className="w-6 h-6" />
                 </button>
@@ -120,8 +139,8 @@ const PropertyImageGallery = ({ images, title }: PropertyImageGalleryProps) => {
             )}
           </div>
 
-          {/* Image Counter */}
-          <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 bg-white/10 backdrop-blur px-4 py-2 rounded-full text-white text-sm">
+          {/* Counter */}
+          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 bg-white/10 px-4 py-2 rounded-full text-white text-sm">
             {fullscreenIndex + 1} / {displayImages.length}
           </div>
         </div>

@@ -9,7 +9,8 @@ const navLinks = [
   { label: "Projects", path: "/projects" },
   { label: "Commercial", path: "/commercial" },
   // { label: "Blog", path: "/blog" },
-  { label: "About", path: "/about" },
+  { label: "Packers & Movers", path: "/packers-movers" },
+   { label: "About", path: "/about" },
   { label: "Contact", path: "/contact" },
 ];
 
