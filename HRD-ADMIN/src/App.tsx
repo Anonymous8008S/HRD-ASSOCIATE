@@ -10,6 +10,7 @@ import PropertiesPage from "@/pages/PropertiesPage";
 import CommercialPage from "@/pages/CommercialPage";
 import ProjectsPage from "@/pages/ProjectsPage";
 import InquiriesPage from "@/pages/InquiriesPage";
+import PackersBookingsPage from "./pages/Packersbookingspage.tsx";
 import TestimonialsStatsPage from "./pages/TestimonialsStaticPage.tsx";
 import LoginPage from "@/pages/LoginPage";
 import NotFound from "./pages/NotFound.tsx";
@@ -52,6 +53,7 @@ const App = () => {
               <Route path="/commercial" element={<CommercialPage />} />
               <Route path="/projects" element={<ProjectsPage />} />
               <Route path="/inquiries" element={<InquiriesPage />} />
+              <Route path="/packers-bookings" element={<PackersBookingsPage />} />
               <Route path="/content" element={<TestimonialsStatsPage />} />
             </Route>
             <Route path="*" element={<NotFound />} />

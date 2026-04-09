@@ -1,14 +1,25 @@
 import { useState, useEffect } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import cityjson from "@/lib/state_city.json";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { uploadFiles } from "@/lib/uploadFiles";
-import { Loader2, Plus, Trash2 } from "lucide-react";
+import { Loader2, Plus, Trash2, X } from "lucide-react";
 
 export interface RoomDetail {
   name: string;
@@ -22,7 +33,7 @@ export interface projects {
   description: string;
   price: number;
   location: string;
-  city  ?: string;
+  city?: string;
   area: string;
   rooms?: RoomDetail[];
   contactNumber?: string;
@@ -53,19 +64,46 @@ interface Props {
 }
 
 const AMENITIES_OPTIONS = [
-  "Swimming Pool", "Gym / Fitness Center", "Parking", "24/7 Security",
-  "Power Backup", "Lift / Elevator", "Garden / Park", "Club House",
-  "Children's Play Area", "CCTV Surveillance", "Intercom",
-  "Water Supply 24/7", "Rainwater Harvesting", "Solar Panels", "Jogging Track",
+  "Swimming Pool",
+  "Gym / Fitness Center",
+  "Parking",
+  "24/7 Security",
+  "Power Backup",
+  "Lift / Elevator",
+  "Garden / Park",
+  "Club House",
+  "Children's Play Area",
+  "CCTV Surveillance",
+  "Intercom",
+  "Water Supply 24/7",
+  "Rainwater Harvesting",
+  "Solar Panels",
+  "Jogging Track",
 ];
 
 const ROOM_PRESETS = [
-  "Master Bedroom", "Bedroom", "Kitchen", "Hall", "Living Room",
-  "Dining Room", "Bathroom", "Balcony", "Study Room", "Pooja Room",
-  "Store Room", "Servant Room", "Garage", "Terrace", "Custom",
+  "Master Bedroom",
+  "Bedroom",
+  "Kitchen",
+  "Hall",
+  "Living Room",
+  "Dining Room",
+  "Bathroom",
+  "Balcony",
+  "Study Room",
+  "Pooja Room",
+  "Store Room",
+  "Servant Room",
+  "Garage",
+  "Terrace",
+  "Custom",
 ];
 
-const emptyRoom = (): RoomDetail => ({ name: "", length: undefined, width: undefined });
+const emptyRoom = (): RoomDetail => ({
+  name: "",
+  length: undefined,
+  width: undefined,
+});
 
 const defaultForm = (): Partial<projects> => ({
   title: "",
@@ -100,14 +138,19 @@ const ProjectForm = ({ open, onClose, onSubmit, initial }: Props) => {
 
   const rooms: RoomDetail[] = form.rooms || [];
 
-  const addRoom = () =>
-    setForm({ ...form, rooms: [...rooms, emptyRoom()] });
+  const addRoom = () => setForm({ ...form, rooms: [...rooms, emptyRoom()] });
 
   const removeRoom = (idx: number) =>
     setForm({ ...form, rooms: rooms.filter((_, i) => i !== idx) });
 
-  const updateRoom = (idx: number, field: keyof RoomDetail, value: string | number) => {
-    const updated = rooms.map((r, i) => (i === idx ? { ...r, [field]: value } : r));
+  const updateRoom = (
+    idx: number,
+    field: keyof RoomDetail,
+    value: string | number,
+  ) => {
+    const updated = rooms.map((r, i) =>
+      i === idx ? { ...r, [field]: value } : r,
+    );
     setForm({ ...form, rooms: updated });
   };
 
@@ -141,7 +184,7 @@ const ProjectForm = ({ open, onClose, onSubmit, initial }: Props) => {
     try {
       setUploading(true);
       let imageUrls: string[] = ((form.images || []) as string[]).filter(
-        (img) => typeof img === "string"
+        (img) => typeof img === "string",
       );
       if (imageFiles.length > 0) {
         const uploaded = await uploadFiles(imageFiles, "properties");
@@ -174,7 +217,6 @@ const ProjectForm = ({ open, onClose, onSubmit, initial }: Props) => {
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-5">
-
           <div>
             <Label>Title</Label>
             <Input
@@ -189,7 +231,9 @@ const ProjectForm = ({ open, onClose, onSubmit, initial }: Props) => {
             <Label>Description</Label>
             <Textarea
               value={form.description || ""}
-              onChange={(e) => setForm({ ...form, description: e.target.value })}
+              onChange={(e) =>
+                setForm({ ...form, description: e.target.value })
+              }
               placeholder="Describe the property"
               required
               rows={3}
@@ -214,7 +258,10 @@ const ProjectForm = ({ open, onClose, onSubmit, initial }: Props) => {
                 type="number"
                 value={form.price === 0 ? "" : form.price}
                 onChange={(e) =>
-                  setForm({ ...form, price: e.target.value === "" ? 0 : +e.target.value })
+                  setForm({
+                    ...form,
+                    price: e.target.value === "" ? 0 : +e.target.value,
+                  })
                 }
                 placeholder="Enter price"
                 required
@@ -229,10 +276,14 @@ const ProjectForm = ({ open, onClose, onSubmit, initial }: Props) => {
                 }}
                 required
               >
-                <SelectTrigger><SelectValue placeholder="Select state" /></SelectTrigger>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select state" />
+                </SelectTrigger>
                 <SelectContent>
                   {Object.keys(cityjson).map((state) => (
-                    <SelectItem key={state} value={state}>{state}</SelectItem>
+                    <SelectItem key={state} value={state}>
+                      {state}
+                    </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
@@ -242,15 +293,25 @@ const ProjectForm = ({ open, onClose, onSubmit, initial }: Props) => {
               <Select
                 value={selectedCity}
                 onValueChange={(city) => {
-                  setForm({ ...form, location: selectedState && city ? `${selectedState}, ${city}` : selectedState });
+                  setForm({
+                    ...form,
+                    location:
+                      selectedState && city
+                        ? `${selectedState}, ${city}`
+                        : selectedState,
+                  });
                 }}
                 required
                 disabled={!selectedState}
               >
-                <SelectTrigger><SelectValue placeholder="Select city" /></SelectTrigger>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select city" />
+                </SelectTrigger>
                 <SelectContent>
                   {(cityjson[selectedState] || []).map((city: string) => (
-                    <SelectItem key={city} value={city}>{city}</SelectItem>
+                    <SelectItem key={city} value={city}>
+                      {city}
+                    </SelectItem>
                   ))}
                 </SelectContent>
               </Select>
@@ -260,7 +321,9 @@ const ProjectForm = ({ open, onClose, onSubmit, initial }: Props) => {
               <Input
                 type="tel"
                 value={form.contactNumber || ""}
-                onChange={(e) => setForm({ ...form, contactNumber: e.target.value })}
+                onChange={(e) =>
+                  setForm({ ...form, contactNumber: e.target.value })
+                }
                 placeholder="Enter contact number"
                 required
               />
@@ -282,9 +345,13 @@ const ProjectForm = ({ open, onClose, onSubmit, initial }: Props) => {
               <Label>Property Type</Label>
               <Select
                 value={form.type || "apartment"}
-                onValueChange={(v) => setForm({ ...form, type: v as projects["type"] })}
+                onValueChange={(v) =>
+                  setForm({ ...form, type: v as projects["type"] })
+                }
               >
-                <SelectTrigger><SelectValue /></SelectTrigger>
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="apartment">Apartment</SelectItem>
                   <SelectItem value="house">House</SelectItem>
@@ -300,9 +367,13 @@ const ProjectForm = ({ open, onClose, onSubmit, initial }: Props) => {
               <Label>Facing</Label>
               <Select
                 value={form.facing || "north"}
-                onValueChange={(v) => setForm({ ...form, facing: v as projects["facing"] })}
+                onValueChange={(v) =>
+                  setForm({ ...form, facing: v as projects["facing"] })
+                }
               >
-                <SelectTrigger><SelectValue /></SelectTrigger>
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="north">North</SelectItem>
                   <SelectItem value="south">South</SelectItem>
@@ -319,7 +390,9 @@ const ProjectForm = ({ open, onClose, onSubmit, initial }: Props) => {
               <Input
                 type="date"
                 value={form.constructionDate || ""}
-                onChange={(e) => setForm({ ...form, constructionDate: e.target.value })}
+                onChange={(e) =>
+                  setForm({ ...form, constructionDate: e.target.value })
+                }
                 className="text-white [&::-webkit-calendar-picker-indicator]:invert"
               />
             </div>
@@ -361,10 +434,14 @@ const ProjectForm = ({ open, onClose, onSubmit, initial }: Props) => {
                 >
                   <div>
                     {idx === 0 && (
-                      <p className="text-xs text-muted-foreground mb-1">Room Name</p>
+                      <p className="text-xs text-muted-foreground mb-1">
+                        Room Name
+                      </p>
                     )}
                     <Select
-                      value={ROOM_PRESETS.includes(room.name) ? room.name : "Custom"}
+                      value={
+                        ROOM_PRESETS.includes(room.name) ? room.name : "Custom"
+                      }
                       onValueChange={(v) => pickRoomPreset(idx, v)}
                     >
                       <SelectTrigger className="h-8 text-sm">
@@ -372,7 +449,9 @@ const ProjectForm = ({ open, onClose, onSubmit, initial }: Props) => {
                       </SelectTrigger>
                       <SelectContent>
                         {ROOM_PRESETS.map((p) => (
-                          <SelectItem key={p} value={p}>{p}</SelectItem>
+                          <SelectItem key={p} value={p}>
+                            {p}
+                          </SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
@@ -380,7 +459,9 @@ const ProjectForm = ({ open, onClose, onSubmit, initial }: Props) => {
 
                   <div>
                     {idx === 0 && (
-                      <p className="text-xs text-muted-foreground mb-1">Custom Name</p>
+                      <p className="text-xs text-muted-foreground mb-1">
+                        Custom Name
+                      </p>
                     )}
                     <Input
                       className="h-8 text-sm"
@@ -396,14 +477,20 @@ const ProjectForm = ({ open, onClose, onSubmit, initial }: Props) => {
 
                   <div>
                     {idx === 0 && (
-                      <p className="text-xs text-muted-foreground mb-1">L (ft)</p>
+                      <p className="text-xs text-muted-foreground mb-1">
+                        L (ft)
+                      </p>
                     )}
                     <Input
                       type="number"
                       className="h-8 text-sm"
                       value={room.length ?? ""}
                       onChange={(e) =>
-                        updateRoom(idx, "length", e.target.value === "" ? 0 : +e.target.value)
+                        updateRoom(
+                          idx,
+                          "length",
+                          e.target.value === "" ? 0 : +e.target.value,
+                        )
                       }
                       placeholder="14"
                     />
@@ -411,14 +498,20 @@ const ProjectForm = ({ open, onClose, onSubmit, initial }: Props) => {
 
                   <div>
                     {idx === 0 && (
-                      <p className="text-xs text-muted-foreground mb-1">W (ft)</p>
+                      <p className="text-xs text-muted-foreground mb-1">
+                        W (ft)
+                      </p>
                     )}
                     <Input
                       type="number"
                       className="h-8 text-sm"
                       value={room.width ?? ""}
                       onChange={(e) =>
-                        updateRoom(idx, "width", e.target.value === "" ? 0 : +e.target.value)
+                        updateRoom(
+                          idx,
+                          "width",
+                          e.target.value === "" ? 0 : +e.target.value,
+                        )
                       }
                       placeholder="12"
                     />
@@ -463,7 +556,8 @@ const ProjectForm = ({ open, onClose, onSubmit, initial }: Props) => {
             </div>
             {(form.amenities || []).length > 0 && (
               <p className="text-xs text-muted-foreground mt-1">
-                {form.amenities!.length} amenit{form.amenities!.length === 1 ? "y" : "ies"} selected
+                {form.amenities!.length} amenit
+                {form.amenities!.length === 1 ? "y" : "ies"} selected
               </p>
             )}
           </div>
@@ -476,19 +570,32 @@ const ProjectForm = ({ open, onClose, onSubmit, initial }: Props) => {
               accept="image/*"
               onChange={(e) => setImageFiles(Array.from(e.target.files || []))}
             />
-            {initial?.images && initial.images.length > 0 && (
+            {(form.images || []).length > 0 && (
               <div className="flex gap-2 mt-2 flex-wrap">
-                {initial.images.map((url, i) => (
-                  <img
-                    key={i}
-                    src={url}
-                    alt={`img-${i}`}
-                    className="w-16 h-16 object-cover rounded border border-border"
-                  />
+                {(form.images as string[]).map((url, i) => (
+                  <div key={i} className="relative group">
+                    <img
+                      src={url}
+                      alt={`img-${i}`}
+                      className="w-16 h-16 object-cover rounded border border-border"
+                    />
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setForm({
+                          ...form,
+                          images: (form.images as string[]).filter(
+                            (_, idx) => idx !== i,
+                          ),
+                        })
+                      }
+                      className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center"
+                      title="Remove image"
+                    >
+                      <X className="w-2.5 h-2.5" />
+                    </button>
+                  </div>
                 ))}
-                <p className="text-xs text-muted-foreground w-full mt-1">
-                  Existing images shown above. Upload new ones to add more.
-                </p>
               </div>
             )}
             {imageFiles.length > 0 && (
@@ -505,7 +612,12 @@ const ProjectForm = ({ open, onClose, onSubmit, initial }: Props) => {
           )}
 
           <div className="flex justify-end gap-2 pt-2">
-            <Button type="button" variant="outline" onClick={handleCancel} disabled={uploading}>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={handleCancel}
+              disabled={uploading}
+            >
               Cancel
             </Button>
             <Button type="submit" disabled={uploading}>
@@ -514,10 +626,13 @@ const ProjectForm = ({ open, onClose, onSubmit, initial }: Props) => {
                   <Loader2 className="w-4 h-4 mr-2 animate-spin" />
                   Uploading...
                 </>
-              ) : initial ? "Update Property" : "Add Property"}
+              ) : initial ? (
+                "Update Property"
+              ) : (
+                "Add Property"
+              )}
             </Button>
           </div>
-
         </form>
       </DialogContent>
     </Dialog>

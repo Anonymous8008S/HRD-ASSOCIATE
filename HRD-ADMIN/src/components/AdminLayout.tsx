@@ -1,5 +1,5 @@
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
-import { Building2, Home, Briefcase, FolderKanban, MessageSquare, LogOut, MessageSquareQuote } from "lucide-react";
+import { Building2, Home, Briefcase, FolderKanban, MessageSquare, LogOut, MessageSquareQuote, Truck } from "lucide-react";
 import logo from "@/assets/logo.jpeg";
 import useAuthStore from "@/stores/useAuthStore";
 
@@ -9,6 +9,7 @@ const navItems = [
   { to: "/commercial", icon: Briefcase, label: "Commercial" },
   { to: "/projects", icon: FolderKanban, label: "Projects" },
   { to: "/inquiries", icon: MessageSquare, label: "Inquiries" },
+  { to: "/packers-bookings", icon: Truck, label: "Packers & Movers" },
   { to: "/content", icon: MessageSquareQuote, label: "Content" },
 
 ];

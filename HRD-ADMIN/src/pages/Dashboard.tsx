@@ -20,7 +20,7 @@ const Dashboard = () => {
   const { properties, fetchAll: fetchProperties } = usePropertyStore();
   const { properties: commercials, fetchAll: fetchCommercials } = useCommercialStore();
   // const { projects, fetchProjects } = useProjectStore();
-  const { inquiries, fetchAll: fetchInquiries } = useInquiryStore();
+  const { inquiries, fetchInquiries } = useInquiryStore();
 
   useEffect(() => {
     fetchProperties();
